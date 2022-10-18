@@ -45,7 +45,7 @@ class PostExpandableActivity : ComponentActivity() {
                 TopBar()
             },
             bottomBar = {},
-            backgroundColor = Color.Black,
+            backgroundColor = Color.LightGray,
         )
         {
             Card(
@@ -138,7 +138,7 @@ class PostExpandableActivity : ComponentActivity() {
 
                                     val type = "text/plain"
                                     val subject = "Your subject"
-                                    val extraText = "https://www.google.com/codes/$"
+                                    val extraText = user.text
                                     val shareWith = "ShareWith"
 
                                     val intent = Intent(Intent.ACTION_SEND)

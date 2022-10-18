@@ -49,19 +49,25 @@ private fun HomePage() {
             pic = arrayOf(R.drawable.pic2,R.drawable.pic1),
             text = "My Young 30 Year Old Husband Is In Urgent Need Of Heart Transplant, Please Help Us Save Him And Get Treated",
             amount = 3030000,
-            desc = ""
+            desc  = "What goes on in a mother’s mind when any time she visits the hospital with her son, she is informed that his cancer has relapsed?\n" +
+                    "Having faced that situation thrice, I pray to God none of the parents ever have the ill fortune to witness their own child suffering from cancer from time and again.\n" +
+                    "\n" +
+                    "My family's happiness lies in Abir. Him being the youngest member of my family of four, all of us are accustomed to his joyous and playful. When he became extremely sick the first time, he was scared and sad. Yet he tried to cheer all of us up as much as he could."
         ),
         User(
             pic = arrayOf(R.drawable.pic2,R.drawable.pic1),
             text = "My Young 30 Year Old Husband Is In Urgent Need Of Heart Transplant, Please Help Us Save Him And Get Treated",
-            amount = 3030000,
-            desc = ""
+            amount = 48656515,
+            desc = "What goes on in a mother’s mind when any time she visits the hospital with her son, she is informed that his cancer has relapsed?\n" +
+                    "Having faced that situation thrice, I pray to God none of the parents ever have the ill fortune to witness their own child suffering from cancer from time and again.\n" +
+                    "\n" +
+                    "My family's happiness lies in Abir. Him being the youngest member of my family of four, all of us are accustomed to his joyous and playful. When he became extremely sick the first time, he was scared and sad. Yet he tried to cheer all of us up as much as he could."
         )
     )
     Scaffold(
         topBar = {},
         bottomBar = {},
-        backgroundColor = Color.Black,
+        backgroundColor = Color.LightGray,
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.padding(innerPadding)
