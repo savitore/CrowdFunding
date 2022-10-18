@@ -40,7 +40,7 @@ class AddPatientsActivity: ComponentActivity() {
             },
             bottomBar = {
                         BottomAppBar(backgroundColor = Color.Blue) {
-                            Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center,) {
                                 Text(
                                     text = "Submit",
                                     color = Color.White,
