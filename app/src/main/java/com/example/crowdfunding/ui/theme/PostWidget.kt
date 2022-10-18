@@ -38,45 +38,51 @@ fun PostWidget(
                 .padding(10.dp)
                 .clickable { navigateToExpand() },
             shape = RoundedCornerShape(16.dp),
-            backgroundColor = Color.LightGray
+            backgroundColor = Color.White
         )
         {
             Column() {
 
-            Box(
-                modifier = Modifier.padding(0.dp),
-                contentAlignment = Alignment.TopCenter
-            )
-            {
-        val selectedTabIndex by remember { mutableStateOf(0) }
-        ScrollableTabRow(
-            selectedTabIndex = selectedTabIndex,
-            backgroundColor = Color.Transparent, contentColor = Color.White,
-            edgePadding = 0.dp, modifier = Modifier.height(250.dp)
-        ) {
-            for (i in 0..user.pic.size - 1) {
-                Image(
-                    modifier = Modifier.height(250.dp),
-                    painter = painterResource(id = user.pic[i]),
-                    contentDescription = "pic",
-                    contentScale = ContentScale.FillWidth
+                Box(
+                    modifier = Modifier.padding(0.dp),
+                    contentAlignment = Alignment.TopCenter
                 )
-            }
-        }
-            }
-            Column() {
-                Row(modifier = Modifier.padding(start = 10.dp,end=10.dp)) {
-                    Text(text = user.text, color = Color.Black, fontSize = 20.sp)
+                {
+                    val selectedTabIndex by remember { mutableStateOf(0) }
+                    ScrollableTabRow(
+                        selectedTabIndex = selectedTabIndex,
+                        backgroundColor = Color.Transparent, contentColor = Color.White,
+                        edgePadding = 0.dp, modifier = Modifier.height(250.dp)
+                    ) {
+                        for (i in 0..user.pic.size - 1) {
+                            Image(
+                                modifier = Modifier.height(250.dp),
+                                painter = painterResource(id = user.pic[i]),
+                                contentDescription = "pic",
+                                contentScale = ContentScale.FillWidth
+                            )
+                        }
+                    }
                 }
+                Spacer(modifier = Modifier.height(5.dp))
+                Column() {
+                    Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+                        Text(text = user.text, color = Color.Black, fontSize = 20.sp)
+                    }
 
-                Spacer(modifier = Modifier.height(13.dp))
-                Row(modifier = Modifier.padding(start = 10.dp,end=10.dp)) {
-                    Text(text = "Funds to raise: Rs ", color = Color.Black, fontSize = 20.sp)
-                    Text(text = user.amount.toString(), color = Color.Black, fontSize = 20.sp,fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(13.dp))
+                    Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+                        Text(text = "Funds to raise: Rs ", color = Color.Black, fontSize = 20.sp)
+                        Text(
+                            text = user.amount.toString(),
+                            color = Color.Black,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
-
             }
-    }
-    }//card
+        }//card
 }
 

@@ -61,7 +61,7 @@ private fun HomePage() {
     Scaffold(
         topBar = {},
         bottomBar = {},
-        backgroundColor = Color.White,
+        backgroundColor = Color.Black,
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.padding(innerPadding)

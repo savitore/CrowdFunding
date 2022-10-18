@@ -1,13 +1,12 @@
 package com.example.crowdfunding
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,10 +18,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 
 class PostExpandableActivity : ComponentActivity() {
@@ -44,10 +45,18 @@ class PostExpandableActivity : ComponentActivity() {
                 TopBar()
             },
             bottomBar = {},
-            backgroundColor = Color.White,
+            backgroundColor = Color.Black,
         )
         {
-            val scrollState = rememberScrollState()
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                backgroundColor = Color.White
+            )
+            {
+                val scrollState = rememberScrollState()
+                val context = LocalContext.current
                 Column(modifier = Modifier.verticalScroll(scrollState)) {
                     Box(
                         modifier = Modifier.padding(10.dp),
@@ -72,7 +81,12 @@ class PostExpandableActivity : ComponentActivity() {
                     }
                     Column() {
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
-                            Text(text = user.text, color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = user.text,
+                                color = Color.Black,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                         Spacer(modifier = Modifier.height(13.dp))
 
@@ -94,7 +108,10 @@ class PostExpandableActivity : ComponentActivity() {
                                 fontWeight = FontWeight.Bold
                             )
                         }
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center,)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                        )
                         {
                             Button(
                                 onClick = { /*TODO*/ },
@@ -105,13 +122,36 @@ class PostExpandableActivity : ComponentActivity() {
                                 ),
                                 shape = RectangleShape,
                                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
-                                modifier = Modifier.height(50.dp).width(150.dp).padding(5.dp)
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(150.dp)
+                                    .padding(5.dp)
                             ) {
+                                Icon(painter = painterResource(id = R.drawable.love), contentDescription ="love", tint = Color.White)
+                                Spacer(modifier = Modifier.width(5.dp))
                                 Text(text = "Donate", color = Color.White)
                             }
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+
+
+                                    val type = "text/plain"
+                                    val subject = "Your subject"
+                                    val extraText = "https://www.google.com/codes/$"
+                                    val shareWith = "ShareWith"
+
+                                    val intent = Intent(Intent.ACTION_SEND)
+                                    intent.type = type
+                                    intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+                                    intent.putExtra(Intent.EXTRA_TEXT, extraText)
+
+                                    ContextCompat.startActivity(
+                                        context,
+                                        Intent.createChooser(intent, shareWith),
+                                        null
+                                    )
+                                },
                                 enabled = true,
                                 border = BorderStroke(
                                     width = 1.dp,
@@ -119,13 +159,19 @@ class PostExpandableActivity : ComponentActivity() {
                                 ),
                                 shape = RectangleShape,
                                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
-                                modifier = Modifier.height(50.dp).width(150.dp).padding(5.dp)
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(150.dp)
+                                    .padding(5.dp)
                             ) {
+                                Icon(painter = painterResource(id = R.drawable.share), contentDescription ="share", tint = Color.White)
+                                Spacer(modifier = Modifier.width(5.dp))
                                 Text(text = "Share", color = Color.White)
                             }
                         }
                     }
                 }
+            }
         }
     }
 }
