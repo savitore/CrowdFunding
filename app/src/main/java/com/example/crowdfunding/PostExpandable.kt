@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -44,7 +47,8 @@ class PostExpandableActivity : ComponentActivity() {
             backgroundColor = Color.White,
         )
         {
-                Column() {
+            val scrollState = rememberScrollState()
+                Column(modifier = Modifier.verticalScroll(scrollState)) {
                     Box(
                         modifier = Modifier.padding(10.dp),
                         contentAlignment = Alignment.TopCenter
@@ -68,7 +72,12 @@ class PostExpandableActivity : ComponentActivity() {
                     }
                     Column() {
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
-                            Text(text = user.text, color = Color.Black, fontSize = 20.sp)
+                            Text(text = user.text, color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(modifier = Modifier.height(13.dp))
+
+                        Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+                            Text(text = user.desc, color = Color.Black, fontSize = 20.sp)
                         }
 
                         Spacer(modifier = Modifier.height(13.dp))
@@ -85,15 +94,35 @@ class PostExpandableActivity : ComponentActivity() {
                                 fontWeight = FontWeight.Bold
                             )
                         }
-
-                        Button(
-                            onClick = { /*TODO*/ },
-                            enabled = true,
-                            border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Black)),
-                            shape = MaterialTheme.shapes.medium,
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue)
-                        ) {
-                            Text(text = "Donate", color = Color.White)
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center,)
+                        {
+                            Button(
+                                onClick = { /*TODO*/ },
+                                enabled = true,
+                                border = BorderStroke(
+                                    width = 1.dp,
+                                    brush = SolidColor(Color.Black),
+                                ),
+                                shape = RectangleShape,
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
+                                modifier = Modifier.height(50.dp).width(150.dp).padding(5.dp)
+                            ) {
+                                Text(text = "Donate", color = Color.White)
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Button(
+                                onClick = { /*TODO*/ },
+                                enabled = true,
+                                border = BorderStroke(
+                                    width = 1.dp,
+                                    brush = SolidColor(Color.Black)
+                                ),
+                                shape = RectangleShape,
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue),
+                                modifier = Modifier.height(50.dp).width(150.dp).padding(5.dp)
+                            ) {
+                                Text(text = "Share", color = Color.White)
+                            }
                         }
                     }
                 }
