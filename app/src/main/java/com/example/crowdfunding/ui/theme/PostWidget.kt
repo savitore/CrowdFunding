@@ -20,12 +20,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.crowdfunding.AddPatientsActivity
 import com.example.crowdfunding.MainActivity
 import com.example.crowdfunding.R
 import com.example.crowdfunding.User
+
+
 
 @Composable
 fun PostWidget(
@@ -48,26 +51,26 @@ fun PostWidget(
                     contentAlignment = Alignment.TopCenter
                 )
                 {
-                    val selectedTabIndex by remember { mutableStateOf(0) }
-                    ScrollableTabRow(
-                        selectedTabIndex = selectedTabIndex,
-                        backgroundColor = Color.Transparent, contentColor = Color.White,
-                        edgePadding = 0.dp, modifier = Modifier.height(250.dp)
-                    ) {
-                        for (i in 0..user.pic.size - 1) {
-                            Image(
-                                modifier = Modifier.height(250.dp),
-                                painter = painterResource(id = user.pic[i]),
-                                contentDescription = "pic",
-                                contentScale = ContentScale.FillWidth
-                            )
-                        }
-                    }
+//                    val selectedTabIndex by remember { mutableStateOf(0) }
+//                    ScrollableTabRow(
+//                        selectedTabIndex = selectedTabIndex,
+//                        backgroundColor = Color.Transparent, contentColor = Color.White,
+//                        edgePadding = 0.dp, modifier = Modifier.height(250.dp)
+//                    ) {
+//                        for (i in 0..user.pic.size - 1) {
+//                            Image(
+//                                modifier = Modifier.height(250.dp),
+//                                painter = painterResource(id = user.pic[i]),
+//                                contentDescription = "pic",
+//                                contentScale = ContentScale.FillWidth
+//                            )
+//                        }
+//                    }
                 }
                 Spacer(modifier = Modifier.height(5.dp))
                 Column() {
                     Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
-                        Text(text = user.text, color = Color.Black, fontSize = 20.sp)
+                        Text(text = user.name!!, color = Color.Black, fontSize = 20.sp)
                     }
 
                     Spacer(modifier = Modifier.height(13.dp))

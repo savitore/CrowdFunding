@@ -21,6 +21,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -36,7 +38,6 @@ class PostExpandableActivity : ComponentActivity() {
             PostContent(user)
         }
     }
-
     @Composable
     fun PostContent(user: User) {
 
@@ -47,7 +48,7 @@ class PostExpandableActivity : ComponentActivity() {
             bottomBar = {},
             backgroundColor = Color.LightGray,
         )
-        {
+        {it
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -69,20 +70,20 @@ class PostExpandableActivity : ComponentActivity() {
                             backgroundColor = Color.Transparent, contentColor = Color.White,
                             edgePadding = 0.dp, modifier = Modifier.height(250.dp)
                         ) {
-                            for (i in 0..user.pic.size - 1) {
-                                Image(
-                                    modifier = Modifier.height(250.dp),
-                                    painter = painterResource(id = user.pic[i]),
-                                    contentDescription = "pic",
-                                    contentScale = ContentScale.FillWidth
-                                )
-                            }
+//                            for (i in 0..user.pic.size - 1) {
+//                                Image(
+//                                    modifier = Modifier.height(250.dp),
+//                                    painter = painterResource(id = user.pic[i]),
+//                                    contentDescription = "pic",
+//                                    contentScale = ContentScale.FillWidth
+//                                )
+//                            }
                         }
                     }
                     Column() {
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
                             Text(
-                                text = user.text,
+                                text = user.name!!,
                                 color = Color.Black,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
@@ -91,7 +92,7 @@ class PostExpandableActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(13.dp))
 
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
-                            Text(text = user.desc, color = Color.Black, fontSize = 20.sp)
+                            Text(text = user.desc!!, color = Color.Black, fontSize = 20.sp)
                         }
 
                         Spacer(modifier = Modifier.height(13.dp))
@@ -138,7 +139,7 @@ class PostExpandableActivity : ComponentActivity() {
 
                                     val type = "text/plain"
                                     val subject = "Your subject"
-                                    val extraText = user.text
+                                    val extraText = user.name
                                     val shareWith = "ShareWith"
 
                                     val intent = Intent(Intent.ACTION_SEND)
@@ -169,9 +170,10 @@ class PostExpandableActivity : ComponentActivity() {
                                 Text(text = "Share", color = Color.White)
                             }
                         }
+                        Spacer(modifier = Modifier.width(10.dp))
                     }
                 }
             }
-        }
-    }
+       }
+   }
 }
