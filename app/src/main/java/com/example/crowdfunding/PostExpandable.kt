@@ -1,6 +1,7 @@
 package com.example.crowdfunding
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -39,7 +40,6 @@ class PostExpandableActivity : ComponentActivity() {
 
     @Composable
     fun PostContent(user: User) {
-
         Scaffold(
             topBar = {
                 TopBar()
@@ -51,7 +51,8 @@ class PostExpandableActivity : ComponentActivity() {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp),
+                    .padding(10.dp)
+                    .fillMaxHeight(),
                 backgroundColor = Color.White
             )
             {
@@ -108,13 +109,14 @@ class PostExpandableActivity : ComponentActivity() {
                                 fontWeight = FontWeight.Bold
                             )
                         }
+                        Spacer(modifier = Modifier.height(15.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                         )
                         {
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {},
                                 enabled = true,
                                 border = BorderStroke(
                                     width = 1.dp,
@@ -134,8 +136,6 @@ class PostExpandableActivity : ComponentActivity() {
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(
                                 onClick = {
-
-
                                     val type = "text/plain"
                                     val subject = "Your subject"
                                     val extraText = user.text
@@ -169,6 +169,7 @@ class PostExpandableActivity : ComponentActivity() {
                                 Text(text = "Share", color = Color.White)
                             }
                         }
+                        Spacer(modifier = Modifier.height(10.dp))
                     }
                 }
             }
