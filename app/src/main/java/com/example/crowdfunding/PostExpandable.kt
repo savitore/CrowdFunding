@@ -116,7 +116,10 @@ class PostExpandableActivity : ComponentActivity() {
                         )
                         {
                             Button(
-                                onClick = {},
+                                onClick = {
+                                    val intent = Intent(context, DonateActivity::class.java)
+                                    context.startActivity(intent)
+                                },
                                 enabled = true,
                                 border = BorderStroke(
                                     width = 1.dp,
