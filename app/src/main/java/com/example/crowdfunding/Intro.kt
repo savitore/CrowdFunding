@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,11 +25,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 
 class IntroActivity: ComponentActivity() {
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                viewModel.isLoading.value
+            }
+        }
         setContent {
             val context= LocalContext.current
             val isFirstRun = getSharedPreferences("CrowdFunding", MODE_PRIVATE)
@@ -38,7 +46,7 @@ class IntroActivity: ComponentActivity() {
                 //show start activity
                 startActivity(Intent(context, MainActivity2::class.java))
             }
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+            getSharedPreferences("CrowdFunding", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit()
             Intro()
         }
