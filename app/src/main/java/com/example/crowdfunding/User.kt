@@ -1,7 +1,11 @@
 package com.example.crowdfunding
 
+import android.icu.util.LocaleData
 import androidx.annotation.DrawableRes
 import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
+import java.text.DateFormat
+import java.util.Locale
 
 //data class User(
 //    @DrawableRes val pic: Array<Int>,
@@ -9,12 +13,14 @@ import com.google.firebase.database.Exclude
 //    val amount: Long,
 //    val desc: String
 //)
+@IgnoreExtraProperties
 data class User(
-    var id: String? =null,
+    var id:String?=null,
     var name:String?=null,
     var age:String?=null,
     var desc:String?=null,
     var amount: String?=null,
+    val pic:String?=null
 //    @DrawableRes
 //    val pic: Int
 

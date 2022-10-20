@@ -1,7 +1,11 @@
 package com.example.crowdfunding
 
+import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
+
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -35,195 +39,54 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.example.crowdfunding.cloudFirestore.UserViewModel
 import com.example.crowdfunding.ui.theme.PostWidget
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.selects.select
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddPatientsActivity: ComponentActivity() {
-    private lateinit var userViewModel: UserViewModel
-    private lateinit var list: ArrayList<User>
+    val db = Firebase.firestore
+    val formatter=SimpleDateFormat("yyyy_MM_dd_mm", Locale.getDefault())
+    val now=Date()
+    val filename=formatter.format(now)
+    lateinit var ImageUri: Uri
     private var selected: User = User()
+    private lateinit var userViewModel: UserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
             AddPatients()
-            initViewModel()
-
-
         }
     }
 
-    @Composable
-    fun DetailAmount(fieldValue: MutableState<TextFieldValue>) {
-        OutlinedTextField(
-            value = fieldValue.value,
-            onValueChange = { newText ->
-                fieldValue.value = newText
-            },
-            keyboardOptions = KeyboardOptions
-                (
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            label = { Text(text = "How much do you want to raise?") },
-            maxLines = 1,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Blue,
-                unfocusedIndicatorColor = Color.Black,
-                focusedLabelColor = Color.Blue
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.rupee),
-                    contentDescription = "rupee"
-                )
-            }
-        )
-    }
-
-    @Composable
-    fun DetailPatientdesc(fieldValue: MutableState<TextFieldValue>) {
-        OutlinedTextField(
-            value = fieldValue.value,
-            onValueChange = { newText ->
-                fieldValue.value = newText
-            },
-            keyboardOptions = KeyboardOptions
-                (
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            label = { Text(text = "Enter details about the patient") },
-            maxLines = 8,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Blue,
-                unfocusedIndicatorColor = Color.Black,
-                focusedLabelColor = Color.Blue
-            ),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-    }
-
-    @Composable
-    fun DetailPatientAge(fieldValue: MutableState<TextFieldValue>) {
-        var isError1 by rememberSaveable { mutableStateOf(false) }
-        OutlinedTextField(
-            value = fieldValue.value,
-            onValueChange = { newText ->
-                fieldValue.value = newText
-                isError1=false
-            },
-            trailingIcon = {
-                if (isError1) {
-                    Icon(
-                        Icons.Filled.Info,
-                        "Error",
-                        tint = MaterialTheme.colors.error
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions
-                (
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
-            ),
-            label = { Text(text = "Patient's age") },
-            maxLines = 1,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Blue,
-                unfocusedIndicatorColor = Color.Black,
-                focusedLabelColor = Color.Blue
-            ),
-            modifier = Modifier.fillMaxWidth()
-        )
-        if (isError1) {
-            Text(
-                text = "Age cannot be empty",
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 14.dp)
-            )
-        }
-    }
-
-    @Composable
-    fun DetailTitle(fieldValue: MutableState<TextFieldValue>) {
-        OutlinedTextField(
-            value = fieldValue.value,
-            onValueChange = { newText ->
-                fieldValue.value = newText
-            },
-            keyboardOptions = KeyboardOptions
-                (
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            label = { Text(text = "Patient's full name") },
-            maxLines = 1,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Blue,
-                unfocusedIndicatorColor = Color.Black,
-                focusedLabelColor = Color.Blue
-            ),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-    }
-
+    @Preview
     @Composable
     fun AddPatients() {
-        val text1 = remember { mutableStateOf(TextFieldValue()) }
-        val text2 = remember { mutableStateOf(TextFieldValue()) }
-        val text3 = remember { mutableStateOf(TextFieldValue()) }
-        val text4 = remember { mutableStateOf(TextFieldValue()) }
-        val context= LocalContext.current
-
-        PostWidget(
-            user = User(
-                text1.value.text,
-                text2.value.toString(),
-                text3.value.text,
-                text4.value.text.toString()
-            )
-        ) {}
         Scaffold(
             topBar = {
                 TopBar1()
             },
-            bottomBar = {
-                BottomAppBar(backgroundColor = Color.Blue) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                            .clickable { val user = User(
-                                selected.id.toString(),
-                                text1.toString(),
-                                text2.toString(),
-                                text3.toString(),
-                                text4.toString()
-                            )
-                                userViewModel.create(user)
-                                userViewModel.getList()
-                                Toast.makeText(context,"Fundraiser created successfully",Toast.LENGTH_SHORT).show()
-                                       val intent=Intent(context,MainActivity::class.java)
-                                       context.startActivity(intent)},
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        Text(
-                            text = "Submit",
-                            color = Color.White,
-                            fontSize = 20.sp,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            },
+//            bottomBar = {
+//                BottomAppBar(backgroundColor = Color.Blue) {
+//                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center,) {
+//                        Text(
+//                            text = "Submit",
+//                            color = Color.White,
+//                            fontSize = 20.sp,
+//                            textAlign = TextAlign.Center,
+//                            modifier = Modifier.clickable {
+//                            }
+//                        )
+//                    }
+//                }
+//            },
             backgroundColor = Color.Black,
-        ) { padding->
+        )
+        { padding ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -254,84 +117,180 @@ class AddPatientsActivity: ComponentActivity() {
                     }
                     Divider()
                     Spacer(modifier = Modifier.height(10.dp))
-                    DetailTitle(text1)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    DetailPatientAge(text2)
-//                    var text2 by remember { mutableStateOf(TextFieldValue()) }
-//                    OutlinedTextField(
-//                        value = text2,
-//                        onValueChange = { newText ->
-//                            text2 = newText
-//                        },
-//                        keyboardOptions = KeyboardOptions
-//                            (
-//                            keyboardType = KeyboardType.Number,
-//                            imeAction = ImeAction.Next
-//                        ),
-//                        label = { Text(text = "Patient's age") },
-//                        maxLines = 1,
-//                        colors = TextFieldDefaults.textFieldColors(
-//                            backgroundColor = Color.White,
-//                            focusedIndicatorColor = Color.Blue,
-//                            unfocusedIndicatorColor = Color.Black,
-//                            focusedLabelColor = Color.Blue
-//                        ),
-//                        modifier = Modifier.fillMaxWidth()
-//                    )
+                    var text1 by remember { mutableStateOf("") }
+                    var isError1 by rememberSaveable { mutableStateOf(false) }
+                    OutlinedTextField(
+                        value = text1,
+                        onValueChange = { newText ->
+                            text1 = newText
+                            isError1 = false
+                        },
+                        trailingIcon = {
+                            if (isError1) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions
+                            (
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        label = { Text(text = "Patient's full name") },
+                        maxLines = 1,
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.White,
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Black,
+                            focusedLabelColor = Color.Blue
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (isError1) {
+                        Text(
+                            text = "Name cannot be empty",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 14.dp)
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(10.dp))
-                    DetailPatientdesc(text3)
-//                    var text3 by remember { mutableStateOf(TextFieldValue()) }
-//                    OutlinedTextField(
-//                        value = text3,
-//                        onValueChange = { newText ->
-//                            text3 = newText
-//                        },
-//                        keyboardOptions = KeyboardOptions
-//                            (
-//                            keyboardType = KeyboardType.Text,
-//                            imeAction = ImeAction.Next
-//                        ),
-//                        label = { Text(text = "Enter details about the patient") },
-//                        maxLines = 8,
-//                        colors = TextFieldDefaults.textFieldColors(
-//                            backgroundColor = Color.White,
-//                            focusedIndicatorColor = Color.Blue,
-//                            unfocusedIndicatorColor = Color.Black,
-//                            focusedLabelColor = Color.Blue
-//                        ),
-//                        modifier = Modifier.fillMaxWidth()
-//                    )
+                    var text2 by remember { mutableStateOf("") }
+                    var isError2 by rememberSaveable { mutableStateOf(false) }
+                    OutlinedTextField(
+                        value = text2,
+                        onValueChange = { newText ->
+                            text2 = newText
+                            isError2 = false
+                        },
+                        trailingIcon = {
+                            if (isError2) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions
+                            (
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        label = { Text(text = "Patient's age") },
+                        maxLines = 1,
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.White,
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Black,
+                            focusedLabelColor = Color.Blue
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (isError2) {
+                        Text(
+                            text = "Please enter age of patient",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 14.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    var text3 by remember { mutableStateOf("") }
+                    var isError3 by rememberSaveable { mutableStateOf(false) }
+                    OutlinedTextField(
+                        value = text3,
+                        onValueChange = { newText ->
+                            text3 = newText
+                            isError3 = false
+                        },
+                        trailingIcon = {
+                            if (isError3) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions
+                            (
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        label = { Text(text = "Enter details about the patient") },
+                        maxLines = 8,
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.White,
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Black,
+                            focusedLabelColor = Color.Blue
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (isError3) {
+                        Text(
+                            text = "Please enter details",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(10.dp))
-//                    var text4 by remember { mutableStateOf(TextFieldValue()) }
-                    DetailAmount(text4)
-//                    OutlinedTextField(
-//                        value = text4,
-//                        onValueChange = { newText ->
-//                            text4 = newText
-//                        },
-//                        keyboardOptions = KeyboardOptions
-//                            (
-//                            keyboardType = KeyboardType.Number,
-//                            imeAction = ImeAction.Next
-//                        ),
-//                        label = { Text(text = "How much do you want to raise?") },
-//                        maxLines = 1,
-//                        colors = TextFieldDefaults.textFieldColors(
-//                            backgroundColor = Color.White,
-//                            focusedIndicatorColor = Color.Blue,
-//                            unfocusedIndicatorColor = Color.Black,
-//                            focusedLabelColor = Color.Blue
-//                        ),
-//                        modifier = Modifier.fillMaxWidth(),
-//                        leadingIcon = {
-//                            Icon(
-//                                painter = painterResource(id = R.drawable.rupee),
-//                                contentDescription = "rupee"
-//                            )
-//                        }
-//                    )
+                    var text4 by remember { mutableStateOf("") }
+                    var isError4 by rememberSaveable { mutableStateOf(false) }
+                    OutlinedTextField(
+                        value = text4,
+                        onValueChange = { newText ->
+                            text4 = newText
+                            isError4 = false
+                        },
+                        trailingIcon = {
+                            if (isError4) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions
+                            (
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                        label = { Text(text = "How much do you want to raise?") },
+                        maxLines = 1,
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.White,
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Black,
+                            focusedLabelColor = Color.Blue
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.rupee),
+                                contentDescription = "rupee"
+                            )
+                        }
+                    )
+                    val id = db.collection("users").document().id
+//                    val storage=FirebaseStorage.getInstance().reference.child("images/")
+                    val user = User(id, text1, text2, text3, text4,filename)
+                    if (isError4) {
+                        Text(
+                            text = "Please enter the amount",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(10.dp))
                     Box(
                         modifier = Modifier
@@ -347,24 +306,27 @@ class AddPatientsActivity: ComponentActivity() {
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = "Add image of patient",
-                                color = Color.Black,
-                                fontSize = 18.sp,
-                                modifier = Modifier.padding(7.dp)
-                            )
+
+                            Button(
+                                onClick = {
+
+                                    selectImage()
+
+                                },
+                                enabled = true,
+                                border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Blue)),
+                                shape = MaterialTheme.shapes.medium,
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.Transparent,
+                                    contentColor = Color.Blue
+                                )
+                            ) {
+                                Text(text = "Select Image")
+                            }
                             Spacer(modifier = Modifier.width(2.dp))
                             Button(
                                 onClick = {
-//                                    val user = User(
-//                                        selected.id.toString(),
-//                                        text1.toString(),
-//                                        text2.toString(),
-//                                        text3.toString(),
-//                                        text4.toString(),
-//                                    )
-//                                    userViewModel.create(user)
-//                                    userViewModel.getList()
+                                    uploadImage()
                                 },
                                 enabled = true,
                                 border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Blue)),
@@ -385,62 +347,72 @@ class AddPatientsActivity: ComponentActivity() {
                         contentDescription = "upload",
                         contentScale = ContentScale.FillWidth
                     )
-                }
-                //card
-            }//fun
-        }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(
+                        onClick = {
+                            userViewModel.getList()
+                            if (db.collection("user") !== null) {
+                                userViewModel.getList()
+                            }
+                            userViewModel.create(user)
+                            startActivity(Intent(baseContext,MainActivity2::class.java))
+
+                        },
+                        enabled = true,
+                        border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Blue)),
+                        shape = MaterialTheme.shapes.medium,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent,
+                            contentColor = Color.Blue
+                        )
+                    ) {
+                        Text(text = "Submit")
 
 
-
-    }
-    fun initViewModel() {
-        userViewModel.createLiveData.observe(this, {bool->
-            onCreate(bool)
-        })
-
-        userViewModel.updateLiveData.observe(this, {bool->
-            onUpdate(bool)
-        })
-        userViewModel.deleteLiveData.observe(this, {bool->
-            onDelete(bool)
-        })
-
-        userViewModel.getListLiveData.observe(this, {lists->
-            onGetList(lists)
-        })
-    }
-
-    fun onGetList(it: List<User>?) {
-        list = ArrayList()
-        list.addAll(it!!)
-    }
-
-    fun onDelete(it: Boolean?) {
-        if (it == true) {
-            userViewModel.getList()
-            resetText()
-        }
-    }
-
-    fun resetText() {
-        selected = User()
-
-
-    }
-
-    fun onCreate(it: Boolean?) {
-        if (it == true) {
-            userViewModel.getList()
-            resetText()
+                    }
+                }//card
+            }//scaffold
         }
 
     }
 
-    private fun onUpdate(it: Boolean?) {
-        if (it == true) {
-            userViewModel.getList()
-            resetText()
+    private fun uploadImage() {
+        val progressDialog=ProgressDialog(this)
+        progressDialog.setMessage("Uploading file")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+//        val formatter=SimpleDateFormat("yyyy_MM_dd_mm", Locale.getDefault())
+//        val now=Date()
+//        val filename=formatter.format(now)
+
+        val storageReference=FirebaseStorage.getInstance().getReference("images/$filename")
+        storageReference.putFile(ImageUri).addOnSuccessListener {
+            Toast.makeText(this,"Successfully uploaded",Toast.LENGTH_SHORT).show()
+            if(progressDialog.isShowing){
+                progressDialog.dismiss()
+            }
         }
+            .addOnFailureListener{
+                if(progressDialog.isShowing)progressDialog.dismiss()
+                Toast.makeText(this,"failed to upload Image",Toast.LENGTH_SHORT).show()
+
+            }
+
+
+    }
+
+    private fun selectImage() {
+        val intent=Intent()
+        intent.type="images/*"
+        intent.action=Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent,100)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        ImageUri=data?.data!!
 
     }
 }

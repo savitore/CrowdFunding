@@ -2,13 +2,10 @@ package com.example.crowdfunding
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,28 +17,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import com.example.crowdfunding.cloudFirestore.Adapter
 
 import com.example.crowdfunding.cloudFirestore.UserViewModel
-import com.example.crowdfunding.ui.theme.PostWidget
-import com.google.gson.Gson
 
 class MainActivity : ComponentActivity() {
-    private lateinit var viewModel: UserViewModel
-
+//    private lateinit var userViewModel: UserViewModel
+//    private lateinit var adapterUser:Adapter
+//    private lateinit var rv:RecyclerView
+    private lateinit var list: ArrayList<User>
+    private var selected: User = User()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            viewModel=ViewModelProvider(this).get(UserViewModel::class.java)
-             val user=ArrayList<User>()
-            HomePage(user)
-
+            HomePage()
         }
     }
+
 }
 
 @Composable
-private fun HomePage(user: ArrayList<User>) {
+private fun HomePage() {
     val context = LocalContext.current
     val activity = remember { context as MainActivity }
 
@@ -83,20 +82,20 @@ private fun HomePage(user: ArrayList<User>) {
         LazyColumn(
             modifier = Modifier.padding(innerPadding)
         ){
-            items(user){ users->
-                                PostWidget(user = users){
-                    val userString = Gson().toJson(user)
-                    val intent = Intent(activity, PostExpandableActivity::class.java)
-                    intent.putExtra("user", userString)
-                    activity.startActivity(intent)
-                }
-
-//                Text(users.name.toString())
-//                Toast.makeText(context,"Hi",Toast.LENGTH_SHORT).show()
-//                Log.d("AMAN",users.toString())
-//                UserListItem(user = users)
-
-                }
+//            items{
+//                ()
+////                                PostWidget(user = user){
+////                    val userString = Gson().toJson(user)
+////                    val intent = Intent(activity, PostExpandableActivity::class.java)
+////                    intent.putExtra("user", userString)
+////                    activity.startActivity(intent)
+////                }
+//                Text(text = user.value)
+////                Toast.makeText(context,"Hi",Toast.LENGTH_SHORT).show()
+////                Log.d("AMAN",users.toString())
+////                UserListItem(user = users)
+//
+//                }
             }
         Column(modifier = Modifier
             .fillMaxSize()
@@ -115,6 +114,7 @@ private fun HomePage(user: ArrayList<User>) {
             }
         }
         }
+
 }
 
 @Composable
