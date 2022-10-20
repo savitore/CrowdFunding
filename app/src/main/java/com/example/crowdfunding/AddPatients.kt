@@ -42,6 +42,7 @@ import com.example.crowdfunding.ui.theme.PostWidget
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.selects.select
 import java.text.SimpleDateFormat
 import java.util.*
@@ -67,6 +68,7 @@ class AddPatientsActivity: ComponentActivity() {
     @Composable
     fun AddPatients() {
         val pic:String
+        val storageReference=Firebase.storage.reference.child("image/").path
         Scaffold(
             topBar = {
                 TopBar1()
@@ -323,10 +325,11 @@ class AddPatientsActivity: ComponentActivity() {
                         }
                     )
                     val id = db.collection("users").document().id
+//                    val pic
 //                    val storage=FirebaseStorage.getInstance().reference.child("images/")
-                    val user = User(id, text1, text2, text4, text3, text4,
-//                        pic
-                    )
+                    val storage=Firebase.storage.reference.child("images/").path
+                    Log.d("storage",storage)
+                    val user = User(id, text1, text2, text4, text3, text4)
                     if (isError4) {
                         Text(
                             text = "Please enter the amount",
@@ -462,6 +465,7 @@ class AddPatientsActivity: ComponentActivity() {
         intent.type = "images/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, 100)
+
 
     }
 

@@ -108,7 +108,7 @@ class MainActivity2 : AppCompatActivity(),Adapter.OnItemClickListener {
         intent.putExtra("id",item.id)
         intent.putExtra("title",item.title)
         intent.putExtra("age",item.age)
-        intent.putExtra("pic",item.pic)
+//        intent.putExtra("pic",item.pic)
         startActivity(intent)
 
      }
