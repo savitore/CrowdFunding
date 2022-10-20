@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -78,10 +81,21 @@ class AddPatientsActivity: ComponentActivity() {
                     Divider()
                     Spacer(modifier = Modifier.height(10.dp))
                     var text1 by remember { mutableStateOf("") }
+                    var isError1 by rememberSaveable { mutableStateOf(false) }
                     OutlinedTextField(
                         value = text1,
                         onValueChange = { newText ->
-                        text1=newText },
+                        text1=newText
+                            isError1=false},
+                        trailingIcon = {
+                            if (isError1) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
                         keyboardOptions = KeyboardOptions
                             (
                             keyboardType = KeyboardType.Text,
@@ -92,13 +106,32 @@ class AddPatientsActivity: ComponentActivity() {
                         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White, focusedIndicatorColor = Color.Blue, unfocusedIndicatorColor = Color.Black, focusedLabelColor = Color.Blue),
                         modifier = Modifier.fillMaxWidth()
                     )
+                    if (isError1) {
+                        Text(
+                            text = "Name cannot be empty",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 14.dp)
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(10.dp))
                     var text2 by remember { mutableStateOf("") }
+                    var isError2 by rememberSaveable { mutableStateOf(false) }
                     OutlinedTextField(
                         value = text2,
                         onValueChange = { newText ->
-                            text2=newText },
+                            text2=newText
+                            isError2=false},
+                        trailingIcon = {
+                            if (isError2) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
                         keyboardOptions = KeyboardOptions
                             (
                             keyboardType = KeyboardType.Number,
@@ -109,13 +142,31 @@ class AddPatientsActivity: ComponentActivity() {
                         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White, focusedIndicatorColor = Color.Blue, unfocusedIndicatorColor = Color.Black, focusedLabelColor = Color.Blue),
                         modifier = Modifier.fillMaxWidth()
                     )
-
+                    if (isError2) {
+                        Text(
+                            text = "Please enter age of patient",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 14.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(10.dp))
                     var text3 by remember { mutableStateOf("") }
+                    var isError3 by rememberSaveable { mutableStateOf(false) }
                     OutlinedTextField(
                         value = text3,
                         onValueChange = { newText ->
-                            text3=newText },
+                            text3=newText
+                            isError3=false},
+                        trailingIcon = {
+                            if (isError3) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
                         keyboardOptions = KeyboardOptions
                             (
                             keyboardType = KeyboardType.Text,
@@ -126,13 +177,32 @@ class AddPatientsActivity: ComponentActivity() {
                         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White, focusedIndicatorColor = Color.Blue, unfocusedIndicatorColor = Color.Black, focusedLabelColor = Color.Blue),
                         modifier = Modifier.fillMaxWidth()
                     )
+                    if (isError3) {
+                        Text(
+                            text = "Please enter details",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(10.dp))
                     var text4 by remember { mutableStateOf("") }
+                    var isError4 by rememberSaveable { mutableStateOf(false) }
                     OutlinedTextField(
                         value = text4,
                         onValueChange = { newText ->
-                            text4=newText },
+                            text4=newText
+                            isError4=false},
+                        trailingIcon = {
+                            if (isError4) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
                         keyboardOptions = KeyboardOptions
                             (
                             keyboardType = KeyboardType.Number,
@@ -146,6 +216,14 @@ class AddPatientsActivity: ComponentActivity() {
                             Icon(painter = painterResource(id = R.drawable.rupee) , contentDescription = "rupee")
                         }
                     )
+                    if (isError4) {
+                        Text(
+                            text = "Please enter the amount",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(10.dp))
                     Box(modifier = Modifier
                         .padding(10.dp)
