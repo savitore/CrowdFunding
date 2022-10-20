@@ -306,11 +306,14 @@ class AddPatientsActivity: ComponentActivity() {
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-
+                            Text(text = "Add image of patient",
+                            color=Color.Black,
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(7.dp))
+                            Spacer(modifier = Modifier.width(2.dp))
                             Button(
                                 onClick = {
-
-                                    selectImage()
+                                          selectImage()
 
                                 },
                                 enabled = true,
@@ -327,6 +330,7 @@ class AddPatientsActivity: ComponentActivity() {
                             Button(
                                 onClick = {
                                     uploadImage()
+
                                 },
                                 enabled = true,
                                 border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Blue)),

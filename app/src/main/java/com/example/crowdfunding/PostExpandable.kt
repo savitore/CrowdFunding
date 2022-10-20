@@ -1,7 +1,9 @@
 package com.example.crowdfunding
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
@@ -22,7 +24,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -31,16 +32,33 @@ import com.google.gson.Gson
 class PostExpandableActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val userString = intent.extras?.getString("user")!!
-        val user = Gson().fromJson(userString, User::class.java)
+//        val userString = intent.extras!!.getString("user")!!
+//        val user = Gson().fromJson(userString, User::class.java)
 
         setContent {
-            PostContent(user)
+
+//            val bundle:Bundle?=intent.extras
+//            val name=bundle!!.getString("name")
+//            val amount= bundle.getString("amount")
+//
+//            val desc= bundle.getString("desc")
+//            val id= bundle.getString("id")
+//            val pic= bundle.getString("pic")
+//            val age= bundle.getString("age")
+//            val user=User(id,name,age,desc,amount,pic)
+            PostContent()
         }
     }
     @Composable
-    fun PostContent(user: User) {
+    fun PostContent() {
+        val bundle:Bundle?=intent.extras
+        val name=bundle!!.getString("name")
+        val amount= bundle.getString("amount")
 
+        val desc= bundle.getString("desc")
+        val id= bundle.getString("id")
+        val pic= bundle.getString("pic")
+        val age= bundle.getString("age")
         Scaffold(
             topBar = {
                 TopBar()
@@ -48,11 +66,12 @@ class PostExpandableActivity : ComponentActivity() {
             bottomBar = {},
             backgroundColor = Color.LightGray,
         )
-        {it
+        {padding->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp),
+                    .padding(10.dp)
+                    .fillMaxHeight(),
                 backgroundColor = Color.White
             )
             {
@@ -64,35 +83,29 @@ class PostExpandableActivity : ComponentActivity() {
                         contentAlignment = Alignment.TopCenter
                     )
                     {
-                        val selectedTabIndex by remember { mutableStateOf(0) }
-                        ScrollableTabRow(
-                            selectedTabIndex = selectedTabIndex,
-                            backgroundColor = Color.Transparent, contentColor = Color.White,
-                            edgePadding = 0.dp, modifier = Modifier.height(250.dp)
-                        ) {
-//                            for (i in 0..user.pic.size - 1) {
-//                                Image(
-//                                    modifier = Modifier.height(250.dp),
-//                                    painter = painterResource(id = user.pic[i]),
-//                                    contentDescription = "pic",
-//                                    contentScale = ContentScale.FillWidth
-//                                )
-//                            }
-                        }
+//                        val selectedTabIndex by remember { mutableStateOf(0) }
+//                        ScrollableTabRow(
+//                            selectedTabIndex = selectedTabIndex,
+//                            backgroundColor = Color.Transparent, contentColor = Color.White,
+//                            edgePadding = 0.dp, modifier = Modifier.height(250.dp)
+//                        ) {
+////
+//                        }
                     }
                     Column() {
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
                             Text(
-                                text = user.name!!,
+                                text = amount.toString(),
                                 color = Color.Black,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
+                            Log.d("in column",amount.toString())
                         }
                         Spacer(modifier = Modifier.height(13.dp))
 
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
-                            Text(text = user.desc!!, color = Color.Black, fontSize = 20.sp)
+                            Text(text = desc.toString(), color = Color.Black, fontSize = 20.sp)
                         }
 
                         Spacer(modifier = Modifier.height(13.dp))
@@ -103,19 +116,23 @@ class PostExpandableActivity : ComponentActivity() {
                                 fontSize = 20.sp
                             )
                             Text(
-                                text = user.amount.toString(),
+                                text = name.toString(),
                                 color = Color.Black,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
+                        Spacer(modifier = Modifier.height(15.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                         )
                         {
                             Button(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+                                    val intent = Intent(context, DonateActivity::class.java)
+                                    context.startActivity(intent)
+                                },
                                 enabled = true,
                                 border = BorderStroke(
                                     width = 1.dp,
@@ -135,11 +152,9 @@ class PostExpandableActivity : ComponentActivity() {
                             Spacer(modifier = Modifier.width(10.dp))
                             Button(
                                 onClick = {
-
-
                                     val type = "text/plain"
                                     val subject = "Your subject"
-                                    val extraText = user.name
+                                    val extraText = age.toString()
                                     val shareWith = "ShareWith"
 
                                     val intent = Intent(Intent.ACTION_SEND)
@@ -170,10 +185,10 @@ class PostExpandableActivity : ComponentActivity() {
                                 Text(text = "Share", color = Color.White)
                             }
                         }
-                        Spacer(modifier = Modifier.width(10.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
                     }
                 }
             }
-       }
-   }
+        }
+    }
 }

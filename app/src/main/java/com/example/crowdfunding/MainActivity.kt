@@ -103,7 +103,7 @@ private fun HomePage() {
             val context = LocalContext.current
             FloatingActionButton(
                 onClick = {
-                    val intent = Intent(context, AddPatientsActivity::class.java)
+                    val intent = Intent(context, LoginActivity::class.java)
                     context.startActivity(intent)
                 },
                 backgroundColor = Color.Blue,

@@ -64,6 +64,7 @@ class MainActivity2 : AppCompatActivity(),Adapter.OnItemClickListener {
         rv.layoutManager=LinearLayoutManager(baseContext)
         adapterUser.notifyDataSetChanged()
 
+
     }
 
     fun onDelete(it: Boolean?) {
@@ -97,11 +98,19 @@ class MainActivity2 : AppCompatActivity(),Adapter.OnItemClickListener {
         }
 
     }
-    override fun onClick(item: User, position: Int) {
-        selected = item
+    override fun onClick(item: User) {
 
-        startActivity(Intent(baseContext,PostExpandableActivity::class.java))
-    }
+        Log.d("onClick","Passing the intent")
+        val intent=Intent(this@MainActivity2,PostExpandableActivity::class.java)
+        intent.putExtra("name",item.name)
+        intent.putExtra("amount",item.amount)
+        intent.putExtra("desc",item.desc)
+        intent.putExtra("id",item.id)
+        intent.putExtra("age",item.age)
+        intent.putExtra("pic",item.pic)
+        startActivity(intent)
+
+     }
 
     override fun onDelete(item: User, position: Int) {
 //        userViewModel.delete(item.id!!)
