@@ -54,7 +54,7 @@ class PostExpandableActivity : ComponentActivity() {
         val bundle:Bundle?=intent.extras
         val name=bundle!!.getString("name")
         val amount= bundle.getString("amount")
-
+        val title=bundle.getString("title")
         val desc= bundle.getString("desc")
         val id= bundle.getString("id")
         val pic= bundle.getString("pic")
@@ -78,29 +78,16 @@ class PostExpandableActivity : ComponentActivity() {
                 val scrollState = rememberScrollState()
                 val context = LocalContext.current
                 Column(modifier = Modifier.verticalScroll(scrollState)) {
-                    Box(
-                        modifier = Modifier.padding(10.dp),
-                        contentAlignment = Alignment.TopCenter
-                    )
-                    {
-//                        val selectedTabIndex by remember { mutableStateOf(0) }
-//                        ScrollableTabRow(
-//                            selectedTabIndex = selectedTabIndex,
-//                            backgroundColor = Color.Transparent, contentColor = Color.White,
-//                            edgePadding = 0.dp, modifier = Modifier.height(250.dp)
-//                        ) {
-////
-//                        }
-                    }
+
                     Column() {
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
                             Text(
-                                text = amount.toString(),
+                                text = title.toString(),
                                 color = Color.Black,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
-                            Log.d("in column",amount.toString())
+                            Log.d("in column",name.toString())
                         }
                         Spacer(modifier = Modifier.height(13.dp))
 
@@ -116,7 +103,7 @@ class PostExpandableActivity : ComponentActivity() {
                                 fontSize = 20.sp
                             )
                             Text(
-                                text = name.toString(),
+                                text = amount.toString(),
                                 color = Color.Black,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold

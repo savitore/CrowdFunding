@@ -81,8 +81,9 @@ class UserViewModel:ViewModel() {
                 Log.d("this",user.id.toString())
                 user.name= item.data!!["name"] as String?
                 user.age=item.data!!["age"] as String?
-                user.amount= item.data!!["amount"] as String?
-                user.desc= item.data!!["description"] as String?
+                user.title=item.data!!["title"] as String?
+                user.amount= item.data!!["amount"] as String
+                user.desc= item.data!!["desc"] as String?
                 usersList.add(user)
             }
 

@@ -1,5 +1,6 @@
 package com.example.crowdfunding.cloudFirestore
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.TextureView
@@ -9,20 +10,21 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.crowdfunding.R
 import com.example.crowdfunding.User
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.NonDisposableHandle.parent
 import java.io.File
 
-class Adapter(var list:List<User>,var onItemClickListener:OnItemClickListener) :RecyclerView.Adapter<Adapter.UserViewHolder>(){
+class Adapter(val context: Context, var list:List<User>, var onItemClickListener:OnItemClickListener) :RecyclerView.Adapter<Adapter.UserViewHolder>(){
 
 
 
     val localfile=File.createTempFile("tempImage","")
     class UserViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
         val title:TextView=itemView.findViewById(R.id.title)
-        val desc:TextView=itemView.findViewById(R.id.desc)
+//        val desc:TextView=itemView.findViewById(R.id.desc)
         val amount:TextView=itemView.findViewById(R.id.amount)
         val imageView:ImageView=itemView.findViewById(R.id.imageView)
 
@@ -33,14 +35,15 @@ class Adapter(var list:List<User>,var onItemClickListener:OnItemClickListener) :
         return UserViewHolder(inflater)
     }
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.title.text=list[position].name
-        holder.desc.text=list[position].desc
+        holder.title.text=list[position].title
         holder.amount.text=list[position].amount
-        val storageRef=FirebaseStorage.getInstance().reference.child("images/${list[position].pic}")
-        storageRef.getFile(localfile).addOnSuccessListener {
-           val bitmap=BitmapFactory.decodeFile(localfile.absolutePath)
-            holder.imageView.setImageBitmap(bitmap)
-        }
+//        val storageRef=FirebaseStorage.getInstance().reference.child("images/${list[position].pic}")
+//        storageRef.getFile(localfile).addOnSuccessListener {
+//           val bitmap=BitmapFactory.decodeFile(localfile.absolutePath)
+//            holder.imageView.setImageBitmap(bitmap)
+//        }
+        Glide.with(context)
+            .load(list[position].pic).into(holder.imageView)
         holder.itemView.setOnClickListener {
             onItemClickListener.onClick(list[position])
         }

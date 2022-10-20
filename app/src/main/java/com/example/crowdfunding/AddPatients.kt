@@ -48,9 +48,10 @@ import java.util.*
 
 class AddPatientsActivity: ComponentActivity() {
     val db = Firebase.firestore
-    val formatter=SimpleDateFormat("yyyy_MM_dd_mm", Locale.getDefault())
-    val now=Date()
-    val filename=formatter.format(now)
+
+    val formatter = SimpleDateFormat("yyyy_MM_dd_mm", Locale.getDefault())
+    val now = Date()
+    val filename = formatter.format(now)
     lateinit var ImageUri: Uri
     private var selected: User = User()
     private lateinit var userViewModel: UserViewModel
@@ -63,9 +64,9 @@ class AddPatientsActivity: ComponentActivity() {
         }
     }
 
-    @Preview
     @Composable
     fun AddPatients() {
+        val pic:String
         Scaffold(
             topBar = {
                 TopBar1()
@@ -200,6 +201,47 @@ class AddPatientsActivity: ComponentActivity() {
                         )
                     }
                     Spacer(modifier = Modifier.height(10.dp))
+                    var text5 by remember { mutableStateOf("") }
+                    var isError5 by rememberSaveable { mutableStateOf(false) }
+                    OutlinedTextField(
+                        value = text5,
+                        onValueChange = { newText ->
+                            text5 = newText
+                            isError1 = false
+                        },
+                        trailingIcon = {
+                            if (isError5) {
+                                Icon(
+                                    Icons.Filled.Info,
+                                    "Error",
+                                    tint = MaterialTheme.colors.error
+                                )
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions
+                            (
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                        label = { Text(text = "Enter title") },
+                        maxLines = 1,
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.White,
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Black,
+                            focusedLabelColor = Color.Blue
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (isError5) {
+                        Text(
+                            text = "Title cannot be empty",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 14.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
                     var text3 by remember { mutableStateOf("") }
                     var isError3 by rememberSaveable { mutableStateOf(false) }
                     OutlinedTextField(
@@ -282,7 +324,9 @@ class AddPatientsActivity: ComponentActivity() {
                     )
                     val id = db.collection("users").document().id
 //                    val storage=FirebaseStorage.getInstance().reference.child("images/")
-                    val user = User(id, text1, text2, text3, text4,filename)
+                    val user = User(id, text1, text2, text4, text3, text4,
+//                        pic
+                    )
                     if (isError4) {
                         Text(
                             text = "Please enter the amount",
@@ -306,14 +350,16 @@ class AddPatientsActivity: ComponentActivity() {
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = "Add image of patient",
-                            color=Color.Black,
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(7.dp))
+                            Text(
+                                text = "Add image of patient",
+                                color = Color.Black,
+                                fontSize = 18.sp,
+                                modifier = Modifier.padding(7.dp)
+                            )
                             Spacer(modifier = Modifier.width(2.dp))
                             Button(
                                 onClick = {
-                                          selectImage()
+                                    selectImage()
 
                                 },
                                 enabled = true,
@@ -322,7 +368,8 @@ class AddPatientsActivity: ComponentActivity() {
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.Transparent,
                                     contentColor = Color.Blue
-                                )
+                                ),
+                                modifier = Modifier.height(10.dp).width(30.dp)
                             ) {
                                 Text(text = "Select Image")
                             }
@@ -338,7 +385,8 @@ class AddPatientsActivity: ComponentActivity() {
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.Transparent,
                                     contentColor = Color.Blue
-                                )
+                                ),
+                                modifier = Modifier.height(10.dp).width(30.dp)
                             ) {
                                 Text(text = "Upload")
                             }
@@ -359,7 +407,7 @@ class AddPatientsActivity: ComponentActivity() {
                                 userViewModel.getList()
                             }
                             userViewModel.create(user)
-                            startActivity(Intent(baseContext,MainActivity2::class.java))
+                            startActivity(Intent(baseContext, MainActivity2::class.java))
 
                         },
                         enabled = true,
@@ -381,7 +429,7 @@ class AddPatientsActivity: ComponentActivity() {
     }
 
     private fun uploadImage() {
-        val progressDialog=ProgressDialog(this)
+        val progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Uploading file")
         progressDialog.setCancelable(false)
         progressDialog.show()
@@ -390,16 +438,19 @@ class AddPatientsActivity: ComponentActivity() {
 //        val now=Date()
 //        val filename=formatter.format(now)
 
-        val storageReference=FirebaseStorage.getInstance().getReference("images/$filename")
+        val storageReference = FirebaseStorage.getInstance().getReference("images/$filename")
+        storageReference.child("images/$filename").downloadUrl.addOnSuccessListener { it ->
+//            pic = it.toString()
+        }
         storageReference.putFile(ImageUri).addOnSuccessListener {
-            Toast.makeText(this,"Successfully uploaded",Toast.LENGTH_SHORT).show()
-            if(progressDialog.isShowing){
+            Toast.makeText(this, "Successfully uploaded", Toast.LENGTH_SHORT).show()
+            if (progressDialog.isShowing) {
                 progressDialog.dismiss()
             }
         }
-            .addOnFailureListener{
-                if(progressDialog.isShowing)progressDialog.dismiss()
-                Toast.makeText(this,"failed to upload Image",Toast.LENGTH_SHORT).show()
+            .addOnFailureListener {
+                if (progressDialog.isShowing) progressDialog.dismiss()
+                Toast.makeText(this, "failed to upload Image", Toast.LENGTH_SHORT).show()
 
             }
 
@@ -407,16 +458,23 @@ class AddPatientsActivity: ComponentActivity() {
     }
 
     private fun selectImage() {
-        val intent=Intent()
-        intent.type="images/*"
-        intent.action=Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent,100)
+        val intent = Intent()
+        intent.type = "images/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, 100)
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        ImageUri=data?.data!!
+        ImageUri = data?.data!!
 
+    }
+
+
+    @Preview(showBackground = true)
+    @Composable
+    fun Preview1() {
+        AddPatientsActivity()
     }
 }

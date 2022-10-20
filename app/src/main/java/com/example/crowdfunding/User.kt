@@ -18,6 +18,7 @@ data class User(
     var id:String?=null,
     var name:String?=null,
     var age:String?=null,
+    var title:String?=null,
     var desc:String?=null,
     var amount: String?=null,
     val pic:String?=null
@@ -31,6 +32,7 @@ data class User(
             "id" to id,
             "name" to name,
             "age" to age,
+            "title" to title,
             "desc" to desc,
             "amount" to amount
 

@@ -25,7 +25,7 @@ class MainActivity2 : AppCompatActivity(),Adapter.OnItemClickListener {
         rv=findViewById(R.id.recyclerView)
         val float:FloatingActionButton=findViewById(R.id.floatingActionButton)
         float.setOnClickListener{
-            startActivity(Intent(this,AddPatientsActivity::class.java))
+            startActivity(Intent(this,LoginActivity::class.java))
         }
         userViewModel=ViewModelProvider(this).get(UserViewModel::class.java)
         userViewModel.getList()
@@ -59,7 +59,7 @@ class MainActivity2 : AppCompatActivity(),Adapter.OnItemClickListener {
         list.addAll(it)
         Log.d("onGetList","OnGetList called")
 
-        adapterUser= Adapter(list,this)
+        adapterUser= Adapter(this,list,this)
         rv.adapter=adapterUser
         rv.layoutManager=LinearLayoutManager(baseContext)
         adapterUser.notifyDataSetChanged()
@@ -106,6 +106,7 @@ class MainActivity2 : AppCompatActivity(),Adapter.OnItemClickListener {
         intent.putExtra("amount",item.amount)
         intent.putExtra("desc",item.desc)
         intent.putExtra("id",item.id)
+        intent.putExtra("title",item.title)
         intent.putExtra("age",item.age)
         intent.putExtra("pic",item.pic)
         startActivity(intent)
@@ -113,6 +114,6 @@ class MainActivity2 : AppCompatActivity(),Adapter.OnItemClickListener {
      }
 
     override fun onDelete(item: User, position: Int) {
-//        userViewModel.delete(item.id!!)
+//        userViewModel.delete(item.id
     }
 }

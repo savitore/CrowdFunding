@@ -41,7 +41,7 @@ class IntroActivity: ComponentActivity() {
             val context= LocalContext.current
             val dataSave = getSharedPreferences("firstLog", 0)
             if (dataSave.getString("firstTime", "").toString() == "no") {
-                context.startActivity(Intent(context, MainActivity::class.java))
+                context.startActivity(Intent(context, MainActivity2::class.java))
             }
             else {
                 val editor = dataSave.edit()
@@ -61,7 +61,7 @@ class IntroActivity: ComponentActivity() {
             bottomBar = {},
             backgroundColor = Color.LightGray,
         )
-        {
+        { padding->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -123,7 +123,7 @@ class IntroActivity: ComponentActivity() {
 
                     Row(horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Bottom) {
                         Text(text = "Next", fontSize = 18.sp, modifier = Modifier.clickable {
-                            val intent = Intent(context,MainActivity::class.java)
+                            val intent = Intent(context,MainActivity2::class.java)
                             context.startActivity(intent)
                         }, color = Color.Blue,fontWeight = FontWeight.Bold)
                     }
