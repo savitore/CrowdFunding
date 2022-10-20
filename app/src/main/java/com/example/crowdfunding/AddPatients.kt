@@ -207,7 +207,7 @@ class AddPatientsActivity: ComponentActivity() {
                         value = text5,
                         onValueChange = { newText ->
                             text5 = newText
-                            isError1 = false
+                            isError5 = false
                         },
                         trailingIcon = {
                             if (isError5) {
