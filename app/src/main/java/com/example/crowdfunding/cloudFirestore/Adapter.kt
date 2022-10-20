@@ -2,6 +2,7 @@ package com.example.crowdfunding.cloudFirestore
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.View
@@ -42,8 +43,8 @@ class Adapter(val context: Context, var list:List<User>, var onItemClickListener
 //           val bitmap=BitmapFactory.decodeFile(localfile.absolutePath)
 //            holder.imageView.setImageBitmap(bitmap)
 //        }
-        Glide.with(context)
-            .load(list[position].pic).into(holder.imageView)
+//        Log.d("Glide","Image inside the adapter${list[position].pic}")
+//        Glide.with(holder.itemView).load(list[position].pic).into(holder.imageView)
         holder.itemView.setOnClickListener {
             onItemClickListener.onClick(list[position])
         }

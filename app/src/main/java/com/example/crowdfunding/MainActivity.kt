@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 //    private lateinit var adapterUser:Adapter
 //    private lateinit var rv:RecyclerView
     private lateinit var list: ArrayList<User>
-    private var selected: User = User()
+//    private var selected: User = User()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
