@@ -62,9 +62,14 @@ class LoginActivity : ComponentActivity() {
 }
 @Composable
 fun LoginScreen(auth: FirebaseAuth){
+    val context= LocalContext.current
+    val mAuth=FirebaseAuth.getInstance()
+    if(mAuth.currentUser !=null){
+        val intent=Intent(context,AddPatientsActivity::class.java)
+        context.startActivity(intent)
+    }
 
     val focusManager= LocalFocusManager.current
-    val context= LocalContext.current
 
     var email by remember{
         mutableStateOf("")
@@ -91,7 +96,7 @@ fun LoginScreen(auth: FirebaseAuth){
         },
         backgroundColor = Color.LightGray,
     )
-    {
+    { padding->
         Card(
             modifier = Modifier
                 .padding(10.dp),

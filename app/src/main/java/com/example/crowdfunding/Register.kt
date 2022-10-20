@@ -90,7 +90,7 @@ fun ShowForm(auth:FirebaseAuth){
         },
         backgroundColor = Color.LightGray,
     )
-    {
+    {padding->
         Card(
             modifier = Modifier
                 .fillMaxWidth()

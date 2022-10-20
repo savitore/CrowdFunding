@@ -48,7 +48,7 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
             },
             backgroundColor = Color.LightGray,
         )
-        {
+        {padding->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -150,8 +150,8 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
     override fun onPaymentSuccess(p0: String?) {
 
         Toast.makeText(this, "Payment is successful" , Toast.LENGTH_SHORT).show();
-//        val intent=Intent(context,MainActivity::class.java)
-//        context.startActivity(intent)
+        val intent=Intent(baseContext,MainActivity2::class.java)
+        startActivity(intent)
     }
 
     override fun onPaymentError(p0: Int, p1: String?) {
