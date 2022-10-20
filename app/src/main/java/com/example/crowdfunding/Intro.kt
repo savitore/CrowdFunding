@@ -1,8 +1,8 @@
 package com.example.crowdfunding
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -39,15 +39,15 @@ class IntroActivity: ComponentActivity() {
         }
         setContent {
             val context= LocalContext.current
-            val isFirstRun = getSharedPreferences("CrowdFunding", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true)
-
-            if (isFirstRun) {
-                //show start activity
-                startActivity(Intent(context, MainActivity2::class.java))
+            val dataSave = getSharedPreferences("firstLog", 0)
+            if (dataSave.getString("firstTime", "").toString() == "no") {
+                context.startActivity(Intent(context, MainActivity::class.java))
             }
-            getSharedPreferences("CrowdFunding", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).commit()
+            else {
+                val editor = dataSave.edit()
+                editor.putString("firstTime", "no")
+                editor.commit()
+            }
             Intro()
         }
     }
@@ -61,7 +61,7 @@ class IntroActivity: ComponentActivity() {
             bottomBar = {},
             backgroundColor = Color.LightGray,
         )
-        { padding->
+        {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -123,7 +123,7 @@ class IntroActivity: ComponentActivity() {
 
                     Row(horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Bottom) {
                         Text(text = "Next", fontSize = 18.sp, modifier = Modifier.clickable {
-                            val intent = Intent(context,MainActivity2::class.java)
+                            val intent = Intent(context,MainActivity::class.java)
                             context.startActivity(intent)
                         }, color = Color.Blue,fontWeight = FontWeight.Bold)
                     }
