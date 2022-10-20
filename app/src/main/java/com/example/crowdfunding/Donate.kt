@@ -88,7 +88,8 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
                             backgroundColor = Color.White,
                             focusedIndicatorColor = Color.Blue,
                             unfocusedIndicatorColor = Color.Black,
-                            focusedLabelColor = Color.Blue
+                            focusedLabelColor = Color.Blue,
+                            textColor = Color.Black
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -97,10 +98,10 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
                     {
                         Button(
                             onClick = {
-                                      val amount=Math.round(text.toFloat()*100).toInt()
+                                      val amount= Math.round(text.toFloat()*100)
                                 val checkout= Checkout()
                                 checkout.setKeyID("rzp_live_7A2cLQLDxsT0Is")
-                                checkout.setImage(R.drawable.rupee)
+                                checkout.setImage(R.drawable.logo)
                                 val obj = JSONObject()
                                 try {
                                     // to put name
