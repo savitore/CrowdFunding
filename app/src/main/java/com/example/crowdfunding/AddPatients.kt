@@ -128,6 +128,7 @@ class AddPatientsActivity: ComponentActivity() {
                             text1 = newText
                             isError1 = false
                         },
+                        isError = isError1,
                         trailingIcon = {
                             if (isError1) {
                                 Icon(
@@ -170,6 +171,7 @@ class AddPatientsActivity: ComponentActivity() {
                             text2 = newText
                             isError2 = false
                         },
+                        isError = isError2,
                         trailingIcon = {
                             if (isError2) {
                                 Icon(
@@ -211,6 +213,7 @@ class AddPatientsActivity: ComponentActivity() {
                             text5 = newText
                             isError5 = false
                         },
+                        isError = isError5,
                         trailingIcon = {
                             if (isError5) {
                                 Icon(
@@ -252,6 +255,7 @@ class AddPatientsActivity: ComponentActivity() {
                             text3 = newText
                             isError3 = false
                         },
+                        isError = isError3,
                         trailingIcon = {
                             if (isError3) {
                                 Icon(
@@ -274,7 +278,7 @@ class AddPatientsActivity: ComponentActivity() {
                             unfocusedIndicatorColor = Color.Black,
                             focusedLabelColor = Color.Blue
                         ),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     )
                     if (isError3) {
                         Text(
@@ -294,6 +298,7 @@ class AddPatientsActivity: ComponentActivity() {
                             text4 = newText
                             isError4 = false
                         },
+                        isError = isError4,
                         trailingIcon = {
                             if (isError4) {
                                 Icon(
