@@ -329,7 +329,7 @@ class AddPatientsActivity: ComponentActivity() {
 //                    val storage=FirebaseStorage.getInstance().reference.child("images/")
                     val storage=Firebase.storage.reference.child("images/").path
                     Log.d("storage",storage)
-                    val user = User(id, text1, text2, text4, text3, text4)
+                    val user = User(id, text1, text2, text5, text3, text4)
                     if (isError4) {
                         Text(
                             text = "Please enter the amount",
@@ -356,8 +356,8 @@ class AddPatientsActivity: ComponentActivity() {
                             Text(
                                 text = "Add image of patient",
                                 color = Color.Black,
-                                fontSize = 18.sp,
-                                modifier = Modifier.padding(7.dp)
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(4.dp)
                             )
                             Spacer(modifier = Modifier.width(2.dp))
                             Button(
@@ -371,8 +371,7 @@ class AddPatientsActivity: ComponentActivity() {
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.Transparent,
                                     contentColor = Color.Blue
-                                ),
-                                modifier = Modifier.height(10.dp).width(30.dp)
+                                )
                             ) {
                                 Text(text = "Select Image")
                             }
@@ -388,20 +387,12 @@ class AddPatientsActivity: ComponentActivity() {
                                 colors = ButtonDefaults.buttonColors(
                                     backgroundColor = Color.Transparent,
                                     contentColor = Color.Blue
-                                ),
-                                modifier = Modifier.height(10.dp).width(30.dp)
+                                )
                             ) {
                                 Text(text = "Upload")
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Image(
-                        modifier = Modifier.height(250.dp),
-                        painter = painterResource(id = R.drawable.pic1),
-                        contentDescription = "upload",
-                        contentScale = ContentScale.FillWidth
-                    )
                     Spacer(modifier = Modifier.height(10.dp))
                     Button(
                         onClick = {

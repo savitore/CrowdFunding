@@ -80,8 +80,9 @@ class PostExpandableActivity : ComponentActivity() {
                 Column(modifier = Modifier.verticalScroll(scrollState)) {
 
                     Column() {
+                        Spacer(modifier = Modifier.height(10.dp))
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
-                            Text(
+                             Text(
                                 text = title.toString(),
                                 color = Color.Black,
                                 fontSize = 20.sp,

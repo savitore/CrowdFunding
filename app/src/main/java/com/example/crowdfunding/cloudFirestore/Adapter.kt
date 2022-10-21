@@ -27,7 +27,7 @@ class Adapter(val context: Context, var list:List<User>, var onItemClickListener
         val title:TextView=itemView.findViewById(R.id.title)
 //        val desc:TextView=itemView.findViewById(R.id.desc)
         val amount:TextView=itemView.findViewById(R.id.amount)
-        val imageView:ImageView=itemView.findViewById(R.id.imageView)
+//        val imageView:ImageView=itemView.findViewById(R.id.imageView)
 
     }
 

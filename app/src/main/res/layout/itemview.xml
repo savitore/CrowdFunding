@@ -24,16 +24,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.054" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="250dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.056"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintVertical_bias="0.054" />-->
 
             <TextView
                 android:id="@+id/title"
@@ -42,9 +42,10 @@
                 android:layout_margin="10dp"
                 android:padding="10dp"
                 android:text="title"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/amountText"
@@ -52,10 +53,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginEnd="0dp"
+                android:textColor="@color/black"
                 android:paddingBottom="10dp"
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
-
                 android:text="Funds to raise:  Rs "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,6 +72,8 @@
                 android:paddingBottom="10dp"
                 android:paddingEnd="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:paddingTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
