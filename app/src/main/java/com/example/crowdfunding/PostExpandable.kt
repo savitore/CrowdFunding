@@ -90,8 +90,35 @@ class PostExpandableActivity : ComponentActivity() {
                             )
                             Log.d("in column",name.toString())
                         }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+                            Text(
+                                text = "Patient's name: ",
+                                color = Color.Black,
+                                fontSize = 20.sp,
+                            )
+                            Text(
+                                text = name.toString(),
+                                color = Color.Black,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+                            Text(
+                                text = "Patient's age: ",
+                                color = Color.Black,
+                                fontSize = 20.sp,
+                            )
+                            Text(
+                                text = age.toString(),
+                                color = Color.Black,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                         Spacer(modifier = Modifier.height(13.dp))
-
                         Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
                             Text(text = desc.toString(), color = Color.Black, fontSize = 20.sp)
                         }
@@ -142,7 +169,7 @@ class PostExpandableActivity : ComponentActivity() {
                                 onClick = {
                                     val type = "text/plain"
                                     val subject = "Your subject"
-                                    val extraText = age.toString()
+                                    val extraText = desc.toString()
                                     val shareWith = "ShareWith"
 
                                     val intent = Intent(Intent.ACTION_SEND)

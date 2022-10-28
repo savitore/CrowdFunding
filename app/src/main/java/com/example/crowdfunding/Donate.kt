@@ -78,6 +78,10 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
                         value = text,
                         onValueChange = { newText ->
                             text = newText
+                            if(newText.equals("0") ||newText.equals("00") || newText.equals("000"))
+                            {
+                                Toast.makeText(baseContext,"Min value should be Rs 1",Toast.LENGTH_SHORT).show()
+                            }
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
@@ -105,37 +109,39 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
                     {
                         Button(
                             onClick = {
-                                      val amount= Math.round(text.toFloat()*100)
-                                val checkout= Checkout()
-                                checkout.setKeyID("rzp_live_7A2cLQLDxsT0Is")
-                                checkout.setImage(R.drawable.logo)
-                                val obj = JSONObject()
-                                try {
-                                    // to put name
-                                    obj.put("name", "CrowdFunding")
+                                if(text.toInt()>0) {
+                                    val amount = Math.round(text.toFloat() * 100)
+                                    val checkout = Checkout()
+                                    checkout.setKeyID("rzp_live_7A2cLQLDxsT0Is")
+                                    checkout.setImage(R.drawable.logo)
+                                    val obj = JSONObject()
+                                    try {
+                                        // to put name
+                                        obj.put("name", "CrowdFunding")
 
-                                    // put description
-                                    obj.put("description", "Donate")
+                                        // put description
+                                        obj.put("description", "Donate")
 
-                                    // to set theme color
-                                    obj.put("theme.color", "")
+                                        // to set theme color
+                                        obj.put("theme.color", "")
 
-                                    // put the currency
-                                    obj.put("currency", "INR")
+                                        // put the currency
+                                        obj.put("currency", "INR")
 
-                                    // put amount
-                                    obj.put("amount", amount)
+                                        // put amount
+                                        obj.put("amount", amount)
 
-                                    // put mobile number
-                                    obj.put("prefill.contact", "9406380105")
+                                        // put mobile number
+                                        obj.put("prefill.contact", "9406380105")
 
-                                    // put email
-                                    obj.put("prefill.email", "21je0482@iitism.ac.in")
+                                        // put email
+                                        obj.put("prefill.email", "21je0482@iitism.ac.in")
 
-                                    // open razorpay to checkout activity
-                                    checkout.open(this@DonateActivity, obj)
-                                } catch (e: JSONException) {
-                                    e.printStackTrace()
+                                        // open razorpay to checkout activity
+                                        checkout.open(this@DonateActivity, obj)
+                                    } catch (e: JSONException) {
+                                        e.printStackTrace()
+                                    }
                                 }
                                       },
                             enabled = true,

@@ -127,6 +127,10 @@ class AddPatientsActivity: ComponentActivity() {
                         onValueChange = { newText ->
                             text1 = newText
                             isError1 = false
+                            if(text1.isEmpty())
+                            {
+                                Toast.makeText(baseContext,"Name cannot be empty",Toast.LENGTH_SHORT).show()
+                            }
                         },
                         isError = isError1,
                         trailingIcon = {
@@ -170,6 +174,10 @@ class AddPatientsActivity: ComponentActivity() {
                         onValueChange = { newText ->
                             text2 = newText
                             isError2 = false
+                            if(text2.isEmpty())
+                            {
+                                Toast.makeText(baseContext,"Age cannot be empty",Toast.LENGTH_SHORT).show()
+                            }
                         },
                         isError = isError2,
                         trailingIcon = {
@@ -212,6 +220,10 @@ class AddPatientsActivity: ComponentActivity() {
                         onValueChange = { newText ->
                             text5 = newText
                             isError5 = false
+                            if(text5.isEmpty())
+                            {
+                                Toast.makeText(baseContext,"Title cannot be empty",Toast.LENGTH_SHORT).show()
+                            }
                         },
                         isError = isError5,
                         trailingIcon = {
@@ -254,6 +266,10 @@ class AddPatientsActivity: ComponentActivity() {
                         onValueChange = { newText ->
                             text3 = newText
                             isError3 = false
+                            if(text3.isEmpty())
+                            {
+                                Toast.makeText(baseContext,"Details cannot be empty",Toast.LENGTH_SHORT).show()
+                            }
                         },
                         isError = isError3,
                         trailingIcon = {
@@ -297,6 +313,10 @@ class AddPatientsActivity: ComponentActivity() {
                         onValueChange = { newText ->
                             text4 = newText
                             isError4 = false
+                            if(text4.isEmpty())
+                            {
+                                Toast.makeText(baseContext,"Amount cannot be empty",Toast.LENGTH_SHORT).show()
+                            }
                         },
                         isError = isError4,
                         trailingIcon = {
@@ -398,16 +418,22 @@ class AddPatientsActivity: ComponentActivity() {
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                     Button(
                         onClick = {
-                            userViewModel.getList()
-                            if (db.collection("user") !== null) {
+                            if(text1.isNotEmpty() && text2.isNotEmpty() && text3.isNotEmpty() && text4.isNotEmpty() && text5.isNotEmpty())
+                            {
                                 userViewModel.getList()
+                                if (db.collection("user") !== null) {
+                                    userViewModel.getList()
+                                }
+                                userViewModel.create(user)
+                                startActivity(Intent(baseContext, MainActivity2::class.java))
                             }
-                            userViewModel.create(user)
-                            startActivity(Intent(baseContext, MainActivity2::class.java))
-
+                            else
+                            {
+                                Toast.makeText(baseContext,"Enter complete details",Toast.LENGTH_SHORT).show()
+                            }
                         },
                         enabled = true,
                         border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Blue)),
