@@ -13,7 +13,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -78,7 +81,7 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
                         value = text,
                         onValueChange = { newText ->
                             text = newText
-                            if(newText.equals("0") ||newText.equals("00") || newText.equals("000"))
+                            if(newText.equals("0"))
                             {
                                 Toast.makeText(baseContext,"Min value should be Rs 1",Toast.LENGTH_SHORT).show()
                             }
@@ -109,7 +112,7 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
                     {
                         Button(
                             onClick = {
-                                if(text.toInt()>0) {
+                                if(text.isNotEmpty() && text.toInt()>0) {
                                     val amount = Math.round(text.toFloat() * 100)
                                     val checkout = Checkout()
                                     checkout.setKeyID("rzp_live_7A2cLQLDxsT0Is")
@@ -132,16 +135,20 @@ class DonateActivity: ComponentActivity(),PaymentResultListener {
                                         obj.put("amount", amount)
 
                                         // put mobile number
-                                        obj.put("prefill.contact", "9406380105")
+                                        obj.put("prefill.contact", "")
 
                                         // put email
-                                        obj.put("prefill.email", "21je0482@iitism.ac.in")
+                                        obj.put("prefill.email", "")            
 
                                         // open razorpay to checkout activity
                                         checkout.open(this@DonateActivity, obj)
                                     } catch (e: JSONException) {
                                         e.printStackTrace()
                                     }
+                                }
+                                else
+                                {
+                                    Toast.makeText(baseContext,"Enter a valid amount",Toast.LENGTH_SHORT).show()
                                 }
                                       },
                             enabled = true,

@@ -38,7 +38,7 @@ fun TopBar2(){
                         contentDescription = "back",
                         modifier = Modifier.padding(start = 0.dp)
                             .clickable {
-                                val intent = Intent(context, MainActivity::class.java)
+                                val intent = Intent(context, MainActivity2::class.java)
                                 context.startActivity(intent)
                             }
                     )
