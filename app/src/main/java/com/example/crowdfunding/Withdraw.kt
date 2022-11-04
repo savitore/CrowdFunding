@@ -33,6 +33,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 class WithdrawActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var userdatabase=UserDatabase
+        val dao=UserDatabase.getDatabase(applicationContext).getDao()
         setContent {
             Withdraw()
         }
