@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import com.example.crowdfunding.cloudFirestore.UserViewModel
 import com.example.crowdfunding.ui.theme.PostWidget
 import com.google.firebase.firestore.ktx.firestore
@@ -56,6 +57,10 @@ class AddPatientsActivity: ComponentActivity() {
     lateinit var ImageUri: Uri
     private var selected: User = User()
     private lateinit var userViewModel: UserViewModel
+    
+    val dbr=Room.databaseBuilder(
+        applicationContext,UserDatabase::class.java,"Fundraisers"
+    ).build()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

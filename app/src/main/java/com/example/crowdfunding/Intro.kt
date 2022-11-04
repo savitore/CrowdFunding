@@ -114,7 +114,7 @@ class IntroActivity: ComponentActivity() {
                     Spacer(modifier = Modifier.height(5.dp))
                     Row(modifier = Modifier
                         .padding(10.dp)) {
-                        Text(text = "Let us assume an individual, unfortunately, meets with an accident on the road. His medical expenses and hospital bills start piling up. Now he needs ₹5 Lakh to pay his expensive medical bills. Fortunately, his best friend signed up on this crowdfunding platform, completed the process of submitting valid documents needed for verification. In a few minutes, he created a crowdfunding campaign to raise funds for his friend’s medical expenses.n a matter of few minutes, funds start coming in to support the financial needs of the injured friend.",
+                        Text(text = "Let us assume an individual, unfortunately, meets with an accident on the road. His medical expenses and hospital bills start piling up. Now he needs ₹5 Lakh to pay his expensive medical bills. Fortunately, his best friend signed up on this crowdfunding platform, completed the process of submitting valid documents needed for verification. In a few minutes, he created a crowdfunding campaign to raise funds for his friend’s medical expenses. In a matter of few minutes, funds start coming in to support the financial needs of the injured friend.",
                             fontSize = 20.sp,
                             fontFamily = FontFamily.Serif,
                             color = Color.DarkGray
